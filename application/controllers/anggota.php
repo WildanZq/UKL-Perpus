@@ -11,76 +11,96 @@ class anggota extends CI_Controller {
 
 	public function index()
 	{
-		$data['panggilview']='anggota_view';
-		$data['anggota'] = $this->anggota_m->lihat();
-		$this->load->view('template_view',$data);
+		if ($this->session->userdata('logged_in') == TRUE) {
+			$data['panggilview']='anggota_view';
+			$data['anggota'] = $this->anggota_m->lihat();
+			$this->load->view('template_view',$data);
+		} else {
+			redirect('login');
+		}
 	}
 
 	public function tambah()
 	{
-		$data['panggilview']='anggota_tambah_view';
-		$this->load->view('template_view',$data);
+		if ($this->session->userdata('logged_in') == TRUE) {
+			$data['panggilview']='anggota_tambah_view';
+			$this->load->view('template_view',$data);
+		} else {
+			redirect('login');
+		}
 	}
 
 	public function tambah_anggota() {
-		if ($this->input->post('submit')) {
-			$this->form_validation->set_rules('nis', 'NIS', 'trim|required');
-			$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
-			$this->form_validation->set_rules('kelas', 'Kelas', 'trim|required');
-			$this->form_validation->set_rules('jk', 'Jenis Kelamin', 'trim|required');
-			$this->form_validation->set_rules('no_hp', 'Nomor HP', 'trim|required|numeric');
+		if ($this->session->userdata('logged_in') == TRUE) {
+			if ($this->input->post('submit')) {
+				$this->form_validation->set_rules('nis', 'NIS', 'trim|required');
+				$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+				$this->form_validation->set_rules('kelas', 'Kelas', 'trim|required');
+				$this->form_validation->set_rules('jk', 'Jenis Kelamin', 'trim|required');
+				$this->form_validation->set_rules('no_hp', 'Nomor HP', 'trim|required|numeric');
 
-			if ($this->form_validation->run() == TRUE) {
-				if ($this->anggota_m->upload() == TRUE) {
-					$this->session->set_flashdata('notif', 'Pendaftaran Berhasil');
-					redirect('anggota');
+				if ($this->form_validation->run() == TRUE) {
+					if ($this->anggota_m->upload() == TRUE) {
+						$this->session->set_flashdata('notif', 'Pendaftaran Berhasil');
+						redirect('anggota');
+					} else {
+						$this->session->set_flashdata('notif', 'Pendaftaran Gagal');
+						redirect('anggota/tambah');
+					}
 				} else {
-					$this->session->set_flashdata('notif', 'Pendaftaran Gagal');
+					$this->session->set_flashdata('notif', validation_errors());
 					redirect('anggota/tambah');
 				}
 			} else {
-				$this->session->set_flashdata('notif', validation_errors());
-				redirect('anggota/tambah');
+				redirect('anggota');
 			}
 		} else {
-			redirect('anggota');
+			redirect('login');
 		}
 	}
 
 	public function hapus($id)
 	{
-		if ($this->anggota_m->delete($id) == TRUE) {
-			$this->session->set_flashdata('notif', 'Hapus Data Berhasil');
-			redirect('anggota');
+		if ($this->session->userdata('logged_in') == TRUE) {
+			if ($this->anggota_m->delete($id) == TRUE) {
+				$this->session->set_flashdata('notif', 'Hapus Data Berhasil');
+				redirect('anggota');
+			} else {
+				$this->session->set_flashdata('notif','Hapus Data Gagal');
+				redirect('anggota');
+			}
 		} else {
-			$this->session->set_flashdata('notif','Hapus Data Gagal');
-			redirect('anggota');
+			redirect('login');
 		}
 	}
 
 	public function edit($id)
 	{
-		if ($this->input->post('submit')) {
-			$this->form_validation->set_rules('nis', 'NIS', 'trim|required');
-			$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
-			$this->form_validation->set_rules('kelas', 'Kelas', 'trim|required');
-			$this->form_validation->set_rules('jk', 'Jenis Kelamin', 'trim|required');
-			$this->form_validation->set_rules('no_hp', 'Nomor HP', 'trim|required|numeric');
+		if ($this->session->userdata('logged_in') == TRUE) {
+			if ($this->input->post('submit')) {
+				$this->form_validation->set_rules('nis', 'NIS', 'trim|required');
+				$this->form_validation->set_rules('nama', 'Nama', 'trim|required');
+				$this->form_validation->set_rules('kelas', 'Kelas', 'trim|required');
+				$this->form_validation->set_rules('jk', 'Jenis Kelamin', 'trim|required');
+				$this->form_validation->set_rules('no_hp', 'Nomor HP', 'trim|required|numeric');
 
-			if ($this->form_validation->run() == TRUE) {
-				if ($this->anggota_m->edit($id) == TRUE) {
-					$this->session->set_flashdata('notif', 'Edit data Berhasil');
-					redirect('anggota');
+				if ($this->form_validation->run() == TRUE) {
+					if ($this->anggota_m->edit($id) == TRUE) {
+						$this->session->set_flashdata('notif', 'Edit data Berhasil');
+						redirect('anggota');
+					} else {
+						$this->session->set_flashdata('notif', 'Edit data Gagal');
+						redirect('anggota');
+					}
 				} else {
-					$this->session->set_flashdata('notif', 'Edit data Gagal');
+					$this->session->set_flashdata('notif', validation_errors());
 					redirect('anggota');
 				}
 			} else {
-				$this->session->set_flashdata('notif', validation_errors());
 				redirect('anggota');
 			}
 		} else {
-			redirect('anggota');
+			redirect('login');
 		}
 	}
 

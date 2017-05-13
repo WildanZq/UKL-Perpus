@@ -2,7 +2,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Tabel Anggota</h1>
-                                      <a href="<?php echo base_url(); ?>index.php/anggota/tambah"> <button style="float: right;margin-top: -55px" class="btn btn-primary">Tambah Anggota</button></a>
+                    <a href="<?php echo base_url(); ?>index.php/anggota/tambah"> <button style="float: right;margin-top: -60px" class="btn btn-primary">Tambah Anggota</button></a>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -10,26 +10,19 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                              <?php
-                              $notif = $this->session->flashdata('notif');
-                              if (!empty($notif))
-                                echo "<div class='alert alert-info'>$notif</div>";
-                              ?>
                                 <thead>
                                     <tr>
-                                        <th>NIS</th>
-                                        <th>Nama</th>
-                                        <th>Kelas</th>
-                                        <th>Jenis Kelamin</th>
-                                        <th>Nomor HP</th>
-                                        <th>Aksi</th>
+                                      <th>NIS</th>
+                                      <th>Nama</th>
+                                      <th>Kelas</th>
+                                      <th>Jenis Kelamin</th>
+                                      <th>Nomor HP</th>
+                                      <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                   <?php
                                     foreach ($anggota as $user) {
                                       echo "
@@ -37,13 +30,13 @@
                                           <td>$user->NIS</td>
                                           <td>$user->NAMA</td>
                                           <td>$user->KELAS</td>
-                                          <td>$user->JK</td>
+                                          <td>"; if($user->JK=='L'){echo 'Laki-laki';}else{echo 'Perempuan';} echo "</td>
                                           <td>$user->NO_HP</td>
                                           <td>
                                             <button class='btn btn-info' data-toggle='modal' data-target='#modal$user->ID_USER'>Edit</button>
                                             <a href='".base_url()."index.php/anggota/hapus/$user->ID_USER' type='button' class='btn btn-danger'>Delete</a>
                                           </td>
-                                        <tr>
+                                        </tr>
 
                                         <!-- Modal -->
                                         <div class='modal fade' id='modal$user->ID_USER' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
@@ -70,8 +63,8 @@
                                                       <div class="form-group">
                                                         <label>Jenis Kelamin</label>
                                                         <select class="form-control" name="jk" required>
-                                                          <option value="L">L</option>
-                                                          <option value="P" <?php if($user->JK=='P'){echo 'selected';} ?>>P</option>
+                                                          <option value="L">Laki-laki</option>
+                                                          <option value="P" <?php if($user->JK=='P'){echo 'selected';} ?>>Perempuan</option>
                                                         </select>
                                                       </div>
                                                       <div class="form-group">
@@ -83,8 +76,8 @@
                                                     <input type='submit' class='btn btn-info' value='Edit' name='submit'>
                                                     <button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button>
                                                     </div>
+                                                    </form>
                                                 </div>
-                                            </form>
                                                 <!-- /.modal-content -->
                                             </div>
                                             <!-- /.modal-dialog -->
@@ -103,4 +96,5 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            <!-- /.row -->
         </div>

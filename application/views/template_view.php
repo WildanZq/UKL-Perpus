@@ -17,10 +17,14 @@
     <!-- MetisMenu CSS -->
     <link href="<?php echo base_url(); ?>vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
+    <!-- DataTables CSS -->
+    <link href="<?php echo base_url(); ?>vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="<?php echo base_url(); ?>vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="<?php echo base_url(); ?>dist/css/sb-admin-2.css" rel="stylesheet">
-
-
 
     <!-- Custom Fonts -->
     <link href="<?php echo base_url(); ?>vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -92,9 +96,8 @@
             <!-- /.navbar-static-side -->
         </nav>
 
+        <?php $this->load->view($panggilview); ?>
     </div>
-
-    <?php $this->load->view($panggilview); ?>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -106,10 +109,25 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<?php echo base_url(); ?>vendor/metisMenu/metisMenu.min.js"></script>
 
-
+    <!-- DataTables JavaScript -->
+    <script src="<?php echo base_url(); ?>vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo base_url(); ?>vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>vendor/datatables-responsive/dataTables.responsive.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo base_url(); ?>dist/js/sb-admin-2.js"></script>
+
+    <script>
+    try {
+      $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+          responsive: true
+        });
+      });
+    } catch(e) {
+
+    }
+    </script>
 
 </body>
 

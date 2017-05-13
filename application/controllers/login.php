@@ -11,6 +11,9 @@ class login extends CI_Controller{
 
   function index()
   {
+    if ($this->session->userdata('logged_in') == TRUE) {
+      redirect('anggota');
+    }
     $this->load->view('login_view');
   }
 
@@ -23,12 +26,12 @@ class login extends CI_Controller{
 				if ($this->login_m->cek_petugas() == TRUE) {
 					redirect('anggota');
 				} else {
-					$data['notif'] = 'Login Gagal';
-					$this->load->view('login_view', $data);
+          $this->session->set_flashdata('notif', 'Username atau Password salah');
+					redirect('login');
 				}
 			} else {
-				$data['notif'] = validation_errors();
-				$this->load->view('login_view', $data);
+        $this->session->set_flashdata('notif', validation_errors());
+				redirect('login');
 			}
 		}
 	}

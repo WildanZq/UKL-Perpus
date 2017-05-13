@@ -43,6 +43,11 @@
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
+                      <?php
+                      $notif = $this->session->flashdata('notif');
+                      if (!empty($notif))
+                        echo "<div class='alert alert-danger'>$notif</div>";
+                      ?>
                         <form role="form" method="post" action="<?php echo base_url(); ?>index.php/login/masuk">
                             <fieldset>
                                 <div class="form-group">

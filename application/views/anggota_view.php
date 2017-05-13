@@ -14,7 +14,7 @@
                           <?php
                           $notif = $this->session->flashdata('notif');
                           if (!empty($notif))
-                            echo "<div class='alert alert-info'>$notif</div>";
+                            echo "<div class='alert alert-info alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>$notif</div>";
                           ?>
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>

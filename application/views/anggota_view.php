@@ -11,6 +11,11 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-body">
+                          <?php
+                          $notif = $this->session->flashdata('notif');
+                          if (!empty($notif))
+                            echo "<div class='alert alert-info'>$notif</div>";
+                          ?>
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>

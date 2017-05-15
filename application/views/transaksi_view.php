@@ -29,7 +29,6 @@
                                     <td><?php
                                     $deadline = strtotime("+7 day",strtotime($pinjam->TANGGAL));
                                     $today = time();
-
                                     if(strtotime(date("Y-m-d")) > $deadline) {
                                       $diff = $today - $deadline;
                                       echo 'Rp '.floor($diff / 86400)*500;

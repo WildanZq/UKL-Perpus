@@ -75,7 +75,6 @@
                         <li>
                             <a href="<?php echo base_url(); ?>index.php/anggota"><i class="fa fa-users fa-fw"></i> Anggota</a>
                         </li>
-
                         <li>
                             <a href="<?php echo base_url(); ?>index.php/buku"><i class="fa fa-table fa-fw"></i> Buku</a>
                         </li>

@@ -20,6 +20,23 @@ class Transaksi extends CI_Controller {
 		}
 	}
 
+	public function tambah()
+	{
+		if ($this->session->userdata('logged_in') == TRUE) {
+			$data['buku'] = $this->transaksi_m->buku();
+			$data['anggota'] = $this->transaksi_m->anggota();
+			$data['panggilview']='transaksi_tambah_view';
+			$this->load->view('template_view',$data);
+		} else {
+			redirect('login');
+		}
+	}
+
+	public function tambah_transaksi()
+	{
+
+	}
+
 }
 
 /* End of file transaksi.php */

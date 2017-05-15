@@ -21,4 +21,14 @@ class transaksi_m extends CI_Model{
     return $this->db->get()->result();
   }
 
+  public function buku()
+  {
+    return $this->db->get('buku')->result();
+  }
+
+  public function anggota()
+  {
+    return $this->db->get('anggota')->result();
+  }
+
 }

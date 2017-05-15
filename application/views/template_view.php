@@ -39,10 +39,7 @@
 </head>
 
 <body>
-
     <div id="wrapper">
-
-
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -51,7 +48,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Perpustakaan UKL</a>
+                <a class="navbar-brand" href="<?php echo base_url(); ?>index.php">Perpustakaan UKL</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -88,7 +85,17 @@
                         <li>
                             <a href="<?php echo base_url(); ?>index.php/petugas"><i class="fa fa-user fa-fw"></i> Petugas</a>
                         </li>
-
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Laporan<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/laporan/peminjaman">Peminjaman</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url(); ?>index.php/laporan/denda">Denda</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

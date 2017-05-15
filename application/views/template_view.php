@@ -83,7 +83,7 @@
                             <a href="<?php echo base_url(); ?>index.php/buku"><i class="fa fa-table fa-fw"></i> Buku</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url(); ?>index.php/transaksi"><i class="fa fa-edit fa-fw"></i> Transaksi</a>
+                            <a href="<?php echo base_url(); ?>index.php/transaksi"><i class="fa fa-edit fa-fw"></i> Peminjaman</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url(); ?>index.php/petugas"><i class="fa fa-user fa-fw"></i> Petugas</a>
@@ -124,9 +124,7 @@
           responsive: true
         });
       });
-    } catch(e) {
-
-    }
+    } catch(e) {}
     </script>
 
 </body>

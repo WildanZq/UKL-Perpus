@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 15 Mei 2017 pada 08.38
+-- Generation Time: 16 Mei 2017 pada 11.48
 -- Versi Server: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -75,10 +75,10 @@ CREATE TABLE `buku` (
 --
 
 INSERT INTO `buku` (`KD_BUKU`, `BARCODE`, `JUDUL`, `KATEGORI`, `PENULIS`, `PENERBIT`, `JUMLAH`, `DIPINJAM`) VALUES
-(1, 130571385, 'Dunia Mimpi', 'Fiksi', 'Herman', 'Lokomedia', 2, 0),
+(1, 130571385, 'Dunia Mimpi', 'Fiksi', 'Herman', 'Lokomedia', 2, 1),
 (2, 418961985, 'Astro Fisik', 'Sains', 'Steve', 'Andi', 3, 1),
 (3, 316359918, 'Hadist', 'Agama', 'Habibi', 'Sinar Dunia', 2, 0),
-(4, 214748364, 'Avangers', 'Komik', 'John', 'Marvel', 4, 0),
+(4, 214748364, 'Avangers', 'Komik', 'John', 'Marvel', 4, 1),
 (5, 598163598, 'Kumpulan Puisi', 'Bahasa', 'Munir', 'Erlangga', 4, 1);
 
 -- --------------------------------------------------------
@@ -115,20 +115,25 @@ INSERT INTO `buku_tamu` (`ID_USER`, `ID_BTAMU`, `TANGGAL`, `KEPERLUAN`) VALUES
 CREATE TABLE `detail_pinjam` (
   `ID_DIPINJAM` int(11) NOT NULL,
   `NO_PINJAM` varchar(11) DEFAULT NULL,
-  `KD_BUKU` varchar(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `KD_BUKU` varchar(11) DEFAULT NULL,
+  `TANGGAL_KEMBALI` date DEFAULT NULL,
+  `ID_PETUGAS_KEMBALI` int(11) NOT NULL DEFAULT '0',
+  `DENDA` int(11) NOT NULL DEFAULT '0',
+  `STATUS` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data untuk tabel `detail_pinjam`
 --
 
-INSERT INTO `detail_pinjam` (`ID_DIPINJAM`, `NO_PINJAM`, `KD_BUKU`) VALUES
-(1, '1', '1'),
-(2, '2', '2'),
-(3, '3', '3'),
-(4, '4', '4'),
-(5, '5', '5'),
-(6, '6', '6');
+INSERT INTO `detail_pinjam` (`ID_DIPINJAM`, `NO_PINJAM`, `KD_BUKU`, `TANGGAL_KEMBALI`, `ID_PETUGAS_KEMBALI`, `DENDA`, `STATUS`) VALUES
+(1, '1', '1', '2017-05-09', 4, 500, 'Terlambat'),
+(2, '2', '2', NULL, 0, 0, 'Belum kembali'),
+(3, '3', '3', '2017-05-06', 1, 0, 'Tepat waktu'),
+(4, '4', '4', '2017-05-09', 3, 0, 'Tepat waktu'),
+(5, '5', '5', NULL, 0, 0, 'Belum kembali'),
+(6, '6', '1', NULL, 0, 0, 'Belum kembali'),
+(7, '6', '4', NULL, 0, 0, 'Belum kembali');
 
 -- --------------------------------------------------------
 
@@ -164,23 +169,20 @@ CREATE TABLE `pinjam` (
   `NO_PINJAM` int(11) NOT NULL,
   `ID_PETUGAS` int(11) DEFAULT NULL,
   `ID_USER` int(11) DEFAULT NULL,
-  `TANGGAL` date DEFAULT NULL,
-  `KEMBALI` date DEFAULT NULL,
-  `ID_PETUGAS_KEMBALI` int(11) NOT NULL DEFAULT '0',
-  `DENDA` int(11) DEFAULT NULL,
-  `STATUS` mediumtext
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `TANGGAL` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data untuk tabel `pinjam`
 --
 
-INSERT INTO `pinjam` (`NO_PINJAM`, `ID_PETUGAS`, `ID_USER`, `TANGGAL`, `KEMBALI`, `ID_PETUGAS_KEMBALI`, `DENDA`, `STATUS`) VALUES
-(1, 2, 1, '2017-05-01', '2017-05-09', 4, 500, 'Terlambat'),
-(2, 4, 3, '2017-05-02', '0000-00-00', 0, 0, 'Belum Kembali'),
-(3, 1, 4, '2017-05-03', '2017-05-06', 1, 0, 'Tepat waktu'),
-(4, 3, 5, '2017-05-07', '2017-05-09', 3, 0, 'Tepat waktu'),
-(5, 5, 6, '2017-05-08', '0000-00-00', 0, 0, 'Belum Kembali');
+INSERT INTO `pinjam` (`NO_PINJAM`, `ID_PETUGAS`, `ID_USER`, `TANGGAL`) VALUES
+(1, 2, 1, '2017-05-01'),
+(2, 4, 3, '2017-05-04'),
+(3, 1, 4, '2017-05-03'),
+(4, 3, 5, '2017-05-07'),
+(5, 5, 6, '2017-05-09'),
+(6, 3, 8, '2017-05-16');
 
 --
 -- Indexes for dumped tables
@@ -252,7 +254,7 @@ ALTER TABLE `buku_tamu`
 -- AUTO_INCREMENT for table `detail_pinjam`
 --
 ALTER TABLE `detail_pinjam`
-  MODIFY `ID_DIPINJAM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID_DIPINJAM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `petugas`
 --
@@ -262,7 +264,7 @@ ALTER TABLE `petugas`
 -- AUTO_INCREMENT for table `pinjam`
 --
 ALTER TABLE `pinjam`
-  MODIFY `NO_PINJAM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `NO_PINJAM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 16 Mei 2017 pada 11.48
+-- Generation Time: 16 Mei 2017 pada 12.00
 -- Versi Server: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -145,19 +145,20 @@ CREATE TABLE `petugas` (
   `ID_PETUGAS` int(11) NOT NULL,
   `USERNAME` mediumtext,
   `PASSWORD` mediumtext,
-  `NAMA` mediumtext
+  `NAMA` mediumtext,
+  `ROLE` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `petugas`
 --
 
-INSERT INTO `petugas` (`ID_PETUGAS`, `USERNAME`, `PASSWORD`, `NAMA`) VALUES
-(1, 'antok', '123', 'Antok'),
-(2, 'yanti', '123', 'Yanti'),
-(3, 'bejo', '123', 'Bejo'),
-(4, 'bagus', '123', 'Bagus'),
-(5, 'nani', '123', 'Nani');
+INSERT INTO `petugas` (`ID_PETUGAS`, `USERNAME`, `PASSWORD`, `NAMA`, `ROLE`) VALUES
+(1, 'antok', '123', 'Antok', 'admin'),
+(2, 'yanti', '123', 'Yanti', 'admin'),
+(3, 'bejo', '123', 'Bejo', 'super'),
+(4, 'bagus', '123', 'Bagus', 'admin'),
+(5, 'nani', '123', 'Nani', 'admin');
 
 -- --------------------------------------------------------
 

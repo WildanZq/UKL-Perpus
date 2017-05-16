@@ -18,8 +18,8 @@ class login_m extends CI_Model{
                       ->get('petugas');
 
     if ($query->num_rows() > 0) {
-      $nama = array_shift($query->result_array());
-      $data = array('nama' => $nama['NAMA'], 'logged_in' => TRUE );
+      $petugas = array_shift($query->result_array());
+      $data = array('nama' => $petugas['NAMA'], 'logged_in' => TRUE, 'id' => $petugas['ID_PETUGAS'] );
       $this->session->set_userdata($data);
 
       return TRUE;

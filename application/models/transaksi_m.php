@@ -23,12 +23,51 @@ class transaksi_m extends CI_Model{
 
   public function buku()
   {
-    return $this->db->get('buku')->result();
+    $this->db->from('buku');
+    $this->db->where('DIPINJAM != JUMLAH');
+    return $this->db->get()->result();
   }
 
   public function anggota()
   {
     return $this->db->get('anggota')->result();
+  }
+
+  public function tambah()
+  {
+    $pinjam = array('ID_PETUGAS' => $this->session->userdata('id'),
+                  'ID_USER' => $this->input->post('peminjam'),
+                  'TANGGAL' => date('Y-m-d'),
+                  'STATUS' => 'Belum Kembali'
+                );
+    $this->db->insert('pinjam', $pinjam);
+    $no_pinjam = $this->db->insert_id();
+    $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
+
+    if ($r==TRUE) {
+      $det = array('ID_DIPINJAM' => NULL,
+                    'NO_PINJAM' => $no_pinjam,
+                    'KD_BUKU' => $this->input->post('buku1')
+                  );
+      $this->db->insert('detail_pinjam', $det);
+      $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
+
+      if ($r==FALSE) {
+        $this->db->delete('pinjam', array('NO_PINJAM'=>$no_pinjam));
+      } else {
+        $dipinjam = $this->db->get_where('buku',array('KD_BUKU' => $this->input->post('buku1')));
+        $dipinjam+=1;
+        $this->db->where('KD_BUKU',$this->input->post('buku1'))->set('DIPINJAM', $dipinjam)->update('buku');
+        $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
+
+        if ($r==FALSE) {
+          $this->db->delete('pinjam', array('NO_PINJAM'=>$no_pinjam));
+          $this->db->delete('detail_pinjam', array('NO_PINJAM'=>$no_pinjam));
+        }
+      }
+    }
+
+    return $r;
   }
 
 }

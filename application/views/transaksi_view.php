@@ -34,7 +34,7 @@
                                       echo 'Rp '.floor($diff / 86400)*500;
                                     } else if(strtotime(date("Y-m-d")) < $deadline) {
                                       $diff = $deadline - $today;
-                                      echo (floor($diff / 86400)+1).' Hari lagi ';
+                                      echo (floor($diff / 86400)+1).' Hari lagi';
                                     } else {
                                       echo 'Hari ini deadline';
                                     } ?></td>

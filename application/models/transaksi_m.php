@@ -15,7 +15,7 @@ class transaksi_m extends CI_Model{
     $this->db->join('buku', 'buku.KD_BUKU=detail_pinjam.KD_BUKU');
     $this->db->join('petugas', 'pinjam.ID_PETUGAS=petugas.ID_PETUGAS');
     $this->db->join('anggota', 'anggota.ID_USER=pinjam.ID_USER');
-    $this->db->where('pinjam.STATUS', 'Belum Kembali');
+    $this->db->where('detail_pinjam.STATUS', 'Belum kembali');
     $this->db->order_by('pinjam.TANGGAL','desc');
 
     return $this->db->get()->result();
@@ -37,8 +37,7 @@ class transaksi_m extends CI_Model{
   {
     $pinjam = array('ID_PETUGAS' => $this->session->userdata('id'),
                   'ID_USER' => $this->input->post('peminjam'),
-                  'TANGGAL' => date('Y-m-d'),
-                  'STATUS' => 'Belum Kembali'
+                  'TANGGAL' => date('Y-m-d')
                 );
     $this->db->insert('pinjam', $pinjam);
     $no_pinjam = $this->db->insert_id();
@@ -52,9 +51,9 @@ class transaksi_m extends CI_Model{
     } else { $jml_buku = 1; }
 
     for ($i=1; $i <= $jml_buku; $i++) {
-      $det = array('ID_DIPINJAM' => NULL,
-                    'NO_PINJAM' => $no_pinjam,
-                    'KD_BUKU' => $this->input->post('buku'.$i)
+      $det = array('NO_PINJAM' => $no_pinjam,
+                    'KD_BUKU' => $this->input->post('buku'.$i),
+                    'STATUS' => 'Belum kembali'
                   );
       $this->db->insert('detail_pinjam', $det);
       // $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
@@ -65,7 +64,7 @@ class transaksi_m extends CI_Model{
       $this->db->where('KD_BUKU',$this->input->post('buku'.$i))->set('DIPINJAM', $dipinjam)->update('buku');
       // $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
     }
-    
+
     $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
     return $r;
   }

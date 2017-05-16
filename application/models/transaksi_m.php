@@ -44,25 +44,35 @@ class transaksi_m extends CI_Model{
     $no_pinjam = $this->db->insert_id();
     $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
 
-    if ($r==TRUE) {
-      $det = array('ID_DIPINJAM' => NULL,
-                    'NO_PINJAM' => $no_pinjam,
-                    'KD_BUKU' => $this->input->post('buku1')
-                  );
-      $this->db->insert('detail_pinjam', $det);
-      $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
+    if ($this->input->post('buku2') != '') {
+      $jml_buku = 2;
+      if ($this->input->post('buku3') != '') {
+        $jml_buku = 3;
+      }
+    } else { $jml_buku = 1; }
 
-      if ($r==FALSE) {
-        $this->db->delete('pinjam', array('NO_PINJAM'=>$no_pinjam));
-      } else {
-        $dipinjam = $this->db->get_where('buku',array('KD_BUKU' => $this->input->post('buku1')));
-        $dipinjam+=1;
-        $this->db->where('KD_BUKU',$this->input->post('buku1'))->set('DIPINJAM', $dipinjam)->update('buku');
+    for ($i=1; $i <= $jml_buku; $i++) {
+      if ($r==TRUE) {
+        $det = array('ID_DIPINJAM' => NULL,
+                      'NO_PINJAM' => $no_pinjam,
+                      'KD_BUKU' => $this->input->post('buku'.$i)
+                    );
+        $this->db->insert('detail_pinjam', $det);
         $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
 
         if ($r==FALSE) {
           $this->db->delete('pinjam', array('NO_PINJAM'=>$no_pinjam));
-          $this->db->delete('detail_pinjam', array('NO_PINJAM'=>$no_pinjam));
+        } else {
+          $dipinjam = $this->db->select('DIPINJAM')->where('KD_BUKU', $this->input->post('buku'.$i))->get('buku')->result;
+          $dipinjam++;
+
+          $this->db->where('KD_BUKU',$this->input->post('buku'.$i))->set('DIPINJAM', $dipinjam)->update('buku');
+          $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
+
+          if ($r==FALSE) {
+            $this->db->delete('pinjam', array('NO_PINJAM'=>$no_pinjam));
+            $this->db->delete('detail_pinjam', array('NO_PINJAM'=>$no_pinjam));
+          }
         }
       }
     }

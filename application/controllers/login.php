@@ -12,7 +12,7 @@ class login extends CI_Controller{
   function index()
   {
     if ($this->session->userdata('logged_in') == TRUE) {
-      redirect('anggota');
+      redirect('transaksi');
     }
     $this->load->view('login_view');
   }
@@ -24,7 +24,7 @@ class login extends CI_Controller{
 
 			if ($this->form_validation->run() == TRUE) {
 				if ($this->login_m->cek_petugas() == TRUE) {
-					redirect('anggota');
+					redirect('transaksi');
 				} else {
           $this->session->set_flashdata('notif', 'Username atau Password salah');
 					redirect('login');

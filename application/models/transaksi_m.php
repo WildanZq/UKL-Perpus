@@ -69,4 +69,30 @@ class transaksi_m extends CI_Model{
     return $r;
   }
 
+  public function kembali($id, $denda)
+  {
+    if ($denda == 0) {
+      $status = 'Tepat waktu';
+    } else {
+      $status = 'Terlambat';
+    }
+
+    $data = array('TANGGAL_KEMBALI' => date("Y-m-d"),
+                  'ID_PETUGAS_KEMBALI' => $this->session->userdata('id'),
+                  'DENDA' => $denda,
+                  'STATUS' => $status
+                );
+    $this->db->where('ID_DIPINJAM',$id)->update('detail_pinjam',$data);
+
+    $kd_buku = $this->db->select('KD_BUKU')->where('ID_DIPINJAM', $id)->get('detail_pinjam')->result_array();
+    $kd_buku = array_shift($kd_buku)['KD_BUKU'];
+
+    $dipinjam = $this->db->select('DIPINJAM')->where('KD_BUKU', $kd_buku)->get('buku')->result_array();
+    $dipinjam = array_shift($dipinjam)['DIPINJAM'] - 1;
+    $this->db->where('KD_BUKU',$kd_buku)->set('DIPINJAM', $dipinjam)->update('buku');
+
+    $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
+    return $r;
+  }
+
 }

@@ -13,6 +13,11 @@
                     <div class="panel panel-default">
                         <!-- /.panel-heading -->
                         <div class="panel-body">
+                          <?php
+                          $notif = $this->session->flashdata('notif');
+                          if (!empty($notif))
+                            echo "<div class='alert alert-info alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>$notif</div>";
+                          ?>
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
@@ -29,9 +34,11 @@
                                     <td><?php
                                     $deadline = strtotime("+7 day",strtotime($pinjam->TANGGAL));
                                     $today = time();
+                                    $denda = 0;
                                     if(strtotime(date("Y-m-d")) > $deadline) {
                                       $diff = $today - $deadline;
-                                      echo 'Rp '.floor($diff / 86400)*500;
+                                      $denda = floor($diff / 86400)*500;
+                                      echo 'Rp '.$denda;
                                     } else if(strtotime(date("Y-m-d")) < $deadline) {
                                       $diff = $deadline - $today;
                                       echo (floor($diff / 86400)+1).' Hari lagi';
@@ -43,8 +50,8 @@
                                     <td><?php echo $pinjam->BARCODE; ?></td>
                                     <td><?php echo $pinjam->JUDUL; ?></td>
                                     <td>
-                                      <a href='<?php echo base_url(); ?>index.php/transaksi/kembali/<?php echo $pinjam->NO_PINJAM; ?>' type='button' class='btn btn-success'>Kembali</a>
-                                      <a href='<?php echo base_url(); ?>index.php/transaksi/hilang/<?php echo $pinjam->NO_PINJAM; ?>' type='button' class='btn btn-danger'>Hilang</a>
+                                      <a href='<?php echo base_url(); ?>index.php/transaksi/kembali/<?php echo $pinjam->ID_DIPINJAM; ?>/<?php echo $denda; ?>' type='button' class='btn btn-success'>Kembali</a>
+                                      <a href='<?php echo base_url(); ?>index.php/transaksi/hilang/<?php echo $pinjam->ID_DIPINJAM; ?>' type='button' class='btn btn-danger'>Hilang</a>
                                     </td>
                                   </tr>
                                   <?php endforeach; ?></tbody>

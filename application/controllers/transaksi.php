@@ -59,6 +59,28 @@ class Transaksi extends CI_Controller {
 		}
 	}
 
+	public function kembali()
+	{
+		if ($this->session->userdata('logged_in') == TRUE) {
+			$id = $this->uri->segment(3);
+			if ($this->uri->segment(4) == '') {
+				$denda = $this->uri->segment(4);
+			} else {
+				$denda = 0;
+			}
+
+			if ($this->transaksi_m->kembali($id, $denda) == TRUE) {
+				$this->session->set_flashdata('notif', 'Pengembalian Berhasil');
+				redirect('transaksi');
+			} else {
+				$this->session->set_flashdata('notif', 'Pengembalian Gagal');
+				redirect('transaksi');
+			}
+		} else {
+			redirect('login');
+		}
+	}
+
 }
 
 /* End of file transaksi.php */

@@ -11,7 +11,7 @@ class anggota extends CI_Controller {
 
 	public function index()
 	{
-		if ($this->session->userdata('logged_in') == TRUE) {
+		if ($this->session->userdata('role') == 'super') {
 			$data['panggilview']='anggota_view';
 			$data['anggota'] = $this->anggota_m->lihat();
 			$this->load->view('template_view',$data);

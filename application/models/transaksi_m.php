@@ -42,7 +42,7 @@ class transaksi_m extends CI_Model{
                 );
     $this->db->insert('pinjam', $pinjam);
     $no_pinjam = $this->db->insert_id();
-    $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
+    // $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
 
     if ($this->input->post('buku2') != '') {
       $jml_buku = 2;
@@ -52,31 +52,21 @@ class transaksi_m extends CI_Model{
     } else { $jml_buku = 1; }
 
     for ($i=1; $i <= $jml_buku; $i++) {
-      if ($r==TRUE) {
-        $det = array('ID_DIPINJAM' => NULL,
-                      'NO_PINJAM' => $no_pinjam,
-                      'KD_BUKU' => $this->input->post('buku'.$i)
-                    );
-        $this->db->insert('detail_pinjam', $det);
-        $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
+      $det = array('ID_DIPINJAM' => NULL,
+                    'NO_PINJAM' => $no_pinjam,
+                    'KD_BUKU' => $this->input->post('buku'.$i)
+                  );
+      $this->db->insert('detail_pinjam', $det);
+      // $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
 
-        if ($r==FALSE) {
-          $this->db->delete('pinjam', array('NO_PINJAM'=>$no_pinjam));
-        } else {
-          $dipinjam = $this->db->select('DIPINJAM')->where('KD_BUKU', $this->input->post('buku'.$i))->get('buku')->result;
-          $dipinjam++;
+      $dipinjam = $this->db->select('DIPINJAM')->where('KD_BUKU', $this->input->post('buku'.$i))->get('buku')->result_array();
+      $dipinjam = array_shift($dipinjam)['DIPINJAM'] + 1;
 
-          $this->db->where('KD_BUKU',$this->input->post('buku'.$i))->set('DIPINJAM', $dipinjam)->update('buku');
-          $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
-
-          if ($r==FALSE) {
-            $this->db->delete('pinjam', array('NO_PINJAM'=>$no_pinjam));
-            $this->db->delete('detail_pinjam', array('NO_PINJAM'=>$no_pinjam));
-          }
-        }
-      }
+      $this->db->where('KD_BUKU',$this->input->post('buku'.$i))->set('DIPINJAM', $dipinjam)->update('buku');
+      // $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
     }
-
+    
+    $this->db->affected_rows() > 0 ? $r=TRUE : $r=FALSE;
     return $r;
   }
 

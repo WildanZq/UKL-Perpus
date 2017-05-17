@@ -18,6 +18,21 @@
                           if (!empty($notif))
                             echo "<div class='alert alert-info alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>$notif</div>";
                           ?>
+                          <form method="post" action="<?php echo base_url(); ?>index.php/transaksi/search">
+                          <div class="row" style="margin-bottom:15px;">
+                            <div class="col-lg-4" style="float:right">
+                              <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search..." name="search">
+                                <span class="input-group-btn">
+                                  <label for="#sc" class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                  </label>
+                                  <input id="sc" type="submit" name="submit" style="display:none">
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          </form>
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>

@@ -21,6 +21,21 @@ class transaksi_m extends CI_Model{
     return $this->db->get()->result();
   }
 
+  public function search($sc)
+  {
+    $this->db->select('*');
+    $this->db->from('pinjam');
+    $this->db->join('detail_pinjam', 'detail_pinjam.NO_PINJAM=pinjam.NO_PINJAM');
+    $this->db->join('buku', 'buku.KD_BUKU=detail_pinjam.KD_BUKU');
+    $this->db->join('petugas', 'pinjam.ID_PETUGAS=petugas.ID_PETUGAS');
+    $this->db->join('anggota', 'anggota.ID_USER=pinjam.ID_USER');
+    $this->db->where('detail_pinjam.STATUS', 'Belum kembali');
+    $this->db->where('pinjam.TANGGAL',$sc)->or_like('anggota.NAMA',$sc)->or_like('buku.JUDUL',$sc)->or_like('buku.BARCODE',$sc);
+    $this->db->order_by('pinjam.TANGGAL','desc');
+
+    return $this->db->get()->result();
+  }
+
   public function buku()
   {
     $this->db->from('buku');

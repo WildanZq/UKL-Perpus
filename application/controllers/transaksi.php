@@ -14,9 +14,29 @@ class Transaksi extends CI_Controller {
 		if ($this->session->userdata('logged_in') == TRUE) {
 			$data['peminjaman'] = $this->transaksi_m->lihat();
 			$data['panggilview']='transaksi_view';
+			if (!empty($this->session->flashdata('search'))) {
+				$sc = $this->session->flashdata('search');
+				$data['peminjaman'] = $this->transaksi_m->search($sc);
+			}
 			$this->load->view('template_view',$data);
 		} else {
 			redirect('login');
+		}
+	}
+
+	public function search()
+	{
+		if ($this->input->post('submit')) {
+			$this->form_validation->set_rules('search','Search','trim|required');
+
+			if ($this->form_validation->run() == TRUE) {
+				$this->session->set_flashdata('search', $this->input->post('search'));
+				redirect('transaksi');
+			} else {
+				redirect('transaksi');
+			}
+		} else {
+			redirect('transaksi');
 		}
 	}
 
